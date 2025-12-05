@@ -1,0 +1,48 @@
+{
+  "settings": {
+    "analysis": {
+      "char_filter": {
+        "farsi_normalization": {
+          "type": "mapping",
+          "mappings": [
+            "ي => ی",
+            "ك => ک",
+            "0 => ۰",
+            "1 => ۱",
+            "2 => ۲",
+            "3 => ۳",
+            "4 => ۴",
+            "5 => ۵",
+            "6 => ۶",
+            "7 => ۷",
+            "8 => ۸",
+            "9 => ۹",
+            "ـ => "
+          ]
+        }
+      },
+      "filter": {
+        "farsi_stop": {"type": "stop","stopwords": "_persian_"},
+        "farsi_stemmer": {"type": "stemmer","language": "arabic"},
+        "asciifolding": {"type": "asciifolding","preserve_original": true}
+      },
+      "analyzer": {
+        "farsi_analyzer": {
+          "type": "custom",
+          "char_filter": ["farsi_normalization"],
+          "tokenizer": "standard",
+          "filter": ["lowercase","farsi_stop","farsi_stemmer","asciifolding"]
+        }
+      }
+    }
+  },
+  "mappings": {
+    "properties": {
+      "title": {"type": "text","analyzer": "farsi_analyzer"},
+      "body": {"type": "text","analyzer": "farsi_analyzer"},
+      "advantages": {"type": "text","analyzer": "farsi_analyzer"},
+      "disadvantages": {"type": "text","analyzer": "farsi_analyzer"},
+      "created_at": {"type": "date","format": "yyyy-MM-dd||yyyy/MM/dd||epoch_millis"}
+    }
+  }
+}
